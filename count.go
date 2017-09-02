@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Count(col string) float64 {
 	return Count(p, col)

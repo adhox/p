@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 // May modify with delimit options: func (p Panel) String(delim string) string
 // For example, p.String(",")... How would you pass delim in fmt.Println(p)???

@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Iter() []map[string]interface{} {
 	table := []map[string]interface{}{}

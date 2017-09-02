@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Filter(cols string, fn interface{}) Panel {
 	tempPanel := make(Panel)

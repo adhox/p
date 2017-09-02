@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Convert(col, kind string) Panel {
 	return Convert(p, col, kind)

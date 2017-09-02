@@ -1,9 +1,12 @@
-package main
+package panel
 
+
+// Min produces minimum value for a given column
 func (p Panel) Min(col string) interface{} {
 	return Min(p, col)
 }
 
+// Min produces minimum value for a given column
 func Min(p Panel, col string) interface{} {
 	switch a := p[col][0].(type) {
 	case int:

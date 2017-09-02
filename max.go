@@ -1,4 +1,4 @@
-package main
+package panel
 
 func (p Panel) Max(col string) interface{} {
 	return Max(p, col)

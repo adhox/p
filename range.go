@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Range(col string) []interface{} {
 	return Range(p, col)

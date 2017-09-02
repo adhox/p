@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 // Panel is a basically tabular-shaped data s
 type Panel map[string][]interface{}

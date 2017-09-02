@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Rows(points ...int) Panel {
 	l := len(points)

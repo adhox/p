@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Mean(col string) float64 {
 	return Mean(p, col)

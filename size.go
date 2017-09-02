@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 type Size struct {
 	Length,

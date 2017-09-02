@@ -1,4 +1,4 @@
-package main
+package panel
 
 // Columns ...
 func (p Panel) Columns(cols map[string]string) Panel {

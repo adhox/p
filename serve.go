@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 import "net/http"
 import "strconv"

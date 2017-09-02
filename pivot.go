@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 // func (p Panel) Pivot(col string, fn interface{}) Panel {
 //   // example: pnl.Pivot("ages", panel.Sum)

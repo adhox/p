@@ -1,3 +1,4 @@
-package main
+package panel
+
 
 type NA struct{}

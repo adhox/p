@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 // simply stack two panels together
 // mimics SQL:

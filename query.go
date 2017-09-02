@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 // Connect and query databases for data
 

@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 import (
 	"encoding/json"
@@ -6,8 +7,10 @@ import (
 	"reflect"
 )
 
-type description map[string]map[string]interface{}
+// type description map[string]map[string]interface{}
 
+// JSON is just a pretty print wrapper
+// for a special use case
 func JSON(d map[string]map[string]interface{}) string {
 	// var i interface{} = d
 	// m := i.(map[string]map[string]interface{})
@@ -70,6 +73,5 @@ func Describe(p Panel, cols []string) map[string]map[string]interface{} {
 			desc[h] = subdesc
 		}
 	}
-
 	return desc
 }

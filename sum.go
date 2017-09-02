@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) Sum(col string) float64 {
 	return Sum(p, col)

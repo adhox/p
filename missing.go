@@ -1,4 +1,5 @@
-package main
+package panel
+
 
 func (p Panel) FillMissing() Panel {
 	return FillMissing(p)

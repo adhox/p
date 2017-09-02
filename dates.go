@@ -1,7 +1,6 @@
-package main
+package panel
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -54,13 +53,14 @@ func isDate(date string) (int, bool) {
 			return code, true
 		}
 	}
+	// 99 is a throwaway value
+	// since 0 is a standard date format
 	return 99, false
 }
 
 func dateFormat(code int) (string, error) {
 	if val, ok := dateStandards[code]; ok {
 		return val, nil
-	} else {
-		return "", errors.New(fmt.Sprintf("code (%d) is not recognized as standard format\n\r", code))
 	}
+	return "", fmt.Errorf("code (%d) is not recognized as standard format\n\r", code)
 }
