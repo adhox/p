@@ -1,9 +1,10 @@
 package panel
 
-
+// Filter ...
 func (p Panel) Filter(cols string, fn interface{}) Panel {
 	tempPanel := make(Panel)
-	for header, _ := range p {
+	for header := range p {
+
 		c := []interface{}{}
 		tempPanel.Add(header, c)
 	}
@@ -12,7 +13,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(bool) bool:
 		for key, val := range p[cols] {
 			if t(val.(bool)) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}
@@ -22,7 +23,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(string) bool:
 		for key, val := range p[cols] {
 			if t(val.(string)) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}
@@ -32,7 +33,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(int) bool:
 		for key, val := range p[cols] {
 			if t(val.(int)) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}
@@ -42,7 +43,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(float64) bool:
 		for key, val := range p[cols] {
 			if t(val.(float64)) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}
@@ -52,7 +53,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(uint) bool:
 		for key, val := range p[cols] {
 			if t(val.(uint)) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 
 				}
@@ -63,7 +64,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 	case func(interface{}) bool:
 		for key, val := range p[cols] {
 			if t(val) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}
@@ -74,7 +75,7 @@ func (p Panel) Filter(cols string, fn interface{}) Panel {
 		def := t.(func(interface{}) bool)
 		for key, val := range p[cols] {
 			if def(val) {
-				for header, _ := range p {
+				for header := range p {
 					tempPanel[header] = append(tempPanel[header], p[header][key])
 				}
 			}

@@ -1,19 +1,53 @@
 package panel
 
+import (
+	"fmt"
+)
 
-func (p Panel) Convert(col, kind string) Panel {
+const (
+	// String column data type
+	String = iota
+	// Int column data type
+	Int
+	// Float column data type
+	Float
+	// Bool column data type
+	Bool
+	// Date column data type
+	Date
+)
+
+// Convert ...
+func (p Panel) Convert(col string, kind int) Panel {
 	return Convert(p, col, kind)
 }
 
-func Convert(p Panel, col, kind string) Panel {
-	// switch kind {
-	// case "string":
-	// case "int":
-	// case "float64":
+// Convert ...
+func Convert(p Panel, col string, kind int) Panel {
+	switch kind {
+	case String:
+		tempCol := make([]interface{}, len(p[col]))
+		for row, val := range p[col] {
+			tempCol[row] = fmt.Sprintf("%v", val)
+		}
+		p[col] = tempCol
 
-	// case "bool":
+	// NEEDS IMPLEMENTATION
+	case Int:
 
-	// }
+	// NEEDS IMPLEMENTATION
+	case Float:
+
+	// NEEDS IMPLEMENTATION
+	case Bool:
+
+	// NEEDS IMPLEMENTATION
+	case Date:
+
+	// NEEDS IMPLEMENTATION
+	default:
+
+	}
 
 	return p
 }

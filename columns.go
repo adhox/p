@@ -92,3 +92,16 @@ func Remove(p Panel, cols ...string) Panel {
 	}
 	return p
 }
+
+// Headers ...
+func (p Panel) Headers() []string {
+	return Headers(p)
+}
+
+// Headers ...
+func Headers(p Panel) (h []string) {
+	for header := range p {
+		h = append(h, header)
+	}
+	return
+}
