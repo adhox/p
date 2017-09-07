@@ -153,14 +153,3 @@ func (p1 Panel) RightJoin(p2 Panel, on string) Panel {
 func (p1 Panel) FullJoin(p2 Panel, on string) Panel {
 	return Join(p1, p2, "full", on)
 }
-
-// func hashify(tab table, targetCol string) (hash []map[string]interface{}) {
-// 	for row := 0; row < len(tab[targetCol]); row++ {
-// 		m := map[string]interface{}{}
-// 		for col := range tab {
-// 			m[col] = tab[col][row]
-// 		}
-// 		hash = append(hash, m)
-// 	}
-// 	return
-// }
