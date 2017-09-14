@@ -1,7 +1,7 @@
 package panel
 
-// Join combines two panels together into one
-func Join(p1, p2 Panel, joinType, targetCol string) Panel {
+// Join ...
+func Join(p1, p2 Panel, joinType string, on ...string) Panel {
 	hash := []map[string]interface{}{}
 	p := New(nil)
 	headers := []string{}
@@ -15,9 +15,18 @@ func Join(p1, p2 Panel, joinType, targetCol string) Panel {
 
 	switch joinType {
 	case "inner":
-		for r1 := 0; r1 < len(p1[targetCol]); r1++ {
-			for r2 := 0; r2 < len(p2[targetCol]); r2++ {
-				if p1[targetCol][r1] == p2[targetCol][r2] {
+		for r1 := 0; r1 < p1.Size().Length; r1++ {
+			for r2 := 0; r2 < p2.Size().Length; r2++ {
+
+				var matches int
+				for i := range on {
+
+					if p1[on[i]][r1] == p2[on[i]][r2] {
+						matches++
+					}
+				}
+
+				if len(on) == matches {
 					m := map[string]interface{}{}
 					for col := range p1 {
 						m[col] = p1[col][r1]
@@ -40,10 +49,18 @@ func Join(p1, p2 Panel, joinType, targetCol string) Panel {
 			}
 		}
 	case "left":
-		for r1 := 0; r1 < len(p1[targetCol]); r1++ {
+		for r1 := 0; r1 < p1.Size().Length; r1++ {
 			joinCount := 0
-			for r2 := 0; r2 < len(p2[targetCol]); r2++ {
-				if p1[targetCol][r1] == p2[targetCol][r2] {
+			for r2 := 0; r2 < p2.Size().Length; r2++ {
+
+				var matches int
+				for i := range on {
+
+					if p1[on[i]][r1] == p2[on[i]][r2] {
+						matches++
+					}
+				}
+				if len(on) == matches {
 					m := map[string]interface{}{}
 					for col := range p1 {
 						m[col] = p1[col][r1]
@@ -53,6 +70,7 @@ func Join(p1, p2 Panel, joinType, targetCol string) Panel {
 					}
 					hash = append(hash, m)
 					joinCount++
+
 				}
 			}
 			if joinCount == 0 {
@@ -61,7 +79,7 @@ func Join(p1, p2 Panel, joinType, targetCol string) Panel {
 					m[col] = p1[col][r1]
 				}
 				for col := range p2 {
-					if col != targetCol {
+					if !stringInSlice(col, on) {
 						m[col] = nil
 					}
 				}
@@ -81,54 +99,17 @@ func Join(p1, p2 Panel, joinType, targetCol string) Panel {
 		}
 
 	case "right":
-		for r2 := 0; r2 < len(p2[targetCol]); r2++ {
-			joinCount := 0
-			for r1 := 0; r1 < len(p1[targetCol]); r1++ {
-				if p1[targetCol][r1] == p2[targetCol][r2] {
-					m := map[string]interface{}{}
-					for col := range p1 {
-						m[col] = p1[col][r1]
-					}
-					for col := range p2 {
-						m[col] = p2[col][r2]
-					}
-					hash = append(hash, m)
-					joinCount++
-				}
-			}
-			if joinCount == 0 {
-				m := map[string]interface{}{}
-				for col := range p2 {
-					m[col] = p2[col][r2]
-				}
-				for col := range p1 {
-					if col != targetCol {
-						m[col] = nil
-					}
-				}
-				hash = append(hash, m)
-				joinCount++
-			}
-		}
+		return Join(p2, p1, "left", on...)
 
-		for _, h := range headers {
-			p[h] = []interface{}{}
-		}
-
-		for row := 0; row < len(hash); row++ {
-			for _, h := range headers {
-				p[h] = append(p[h], hash[row][h])
-			}
-		}
 	case "full":
-		m1 := Join(p1, p2, "left", targetCol)
-		m2 := Join(p1, p2, "right", targetCol)
+		m1 := Join(p1, p2, "left", on...)
+		m2 := Join(p1, p2, "right", on...)
 		return m1.Concat(m2).Unique()
 
-	// default is rerun as inner join
+	// // default is rerun as inner join
 	default:
 		if joinType != "inner" {
-			return Join(p1, p2, "inner", targetCol)
+			return Join(p1, p2, "inner", on...)
 		}
 	}
 	return p
