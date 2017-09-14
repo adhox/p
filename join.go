@@ -116,21 +116,21 @@ func Join(p1, p2 Panel, joinType string, on ...string) Panel {
 }
 
 // InnerJoin ...
-func (p1 Panel) InnerJoin(p2 Panel, on string) Panel {
-	return Join(p1, p2, "inner", on)
+func (p1 Panel) InnerJoin(p2 Panel, on ...string) Panel {
+	return Join(p1, p2, "inner", on...)
 }
 
 // LeftJoin ...
-func (p1 Panel) LeftJoin(p2 Panel, on string) Panel {
-	return Join(p1, p2, "left", on)
+func (p1 Panel) LeftJoin(p2 Panel, on ...string) Panel {
+	return Join(p1, p2, "left", on...)
 }
 
 // RightJoin ...
-func (p1 Panel) RightJoin(p2 Panel, on string) Panel {
-	return Join(p1, p2, "right", on)
+func (p1 Panel) RightJoin(p2 Panel, on ...string) Panel {
+	return Join(p1, p2, "right", on...)
 }
 
 // FullJoin ...
-func (p1 Panel) FullJoin(p2 Panel, on string) Panel {
-	return Join(p1, p2, "full", on)
+func (p1 Panel) FullJoin(p2 Panel, on ...string) Panel {
+	return Join(p1, p2, "full", on...)
 }
