@@ -1,26 +1,5 @@
 package panel
 
-// Columns ...
-func (p Panel) Columns(cols map[string]string) Panel {
-	return Columns(p, cols)
-}
-
-// Columns ...
-func Columns(p Panel, cols map[string]string) Panel {
-	if cols != nil {
-		tempPanel := make(Panel)
-		for header, series := range p {
-			if val, ok := cols[header]; ok {
-				tempPanel.Add(val, series)
-			} else {
-				tempPanel.Add(header, series)
-			}
-		}
-		return tempPanel
-	}
-	return p
-}
-
 // Add a column with data
 func Add(p Panel, header string, data interface{}) Panel {
 	return p.Add(header, data)
@@ -93,15 +72,31 @@ func Remove(p Panel, cols ...string) Panel {
 	return p
 }
 
-// Headers ...
-func (p Panel) Headers() []string {
-	return Headers(p)
+// Columns returns a slice of strings for the column names
+func (p Panel) Columns() []string {
+	return Columns(p)
 }
 
-// Headers ...
-func Headers(p Panel) (h []string) {
+// Columns returns a slice of strings for the column names
+func Columns(p Panel) (h []string) {
 	for header := range p {
 		h = append(h, header)
 	}
 	return
 }
+
+// // Columns ...
+// func Columns(p Panel, cols map[string]string) Panel {
+// 	if cols != nil {
+// 		tempPanel := make(Panel)
+// 		for header, series := range p {
+// 			if val, ok := cols[header]; ok {
+// 				tempPanel.Add(val, series)
+// 			} else {
+// 				tempPanel.Add(header, series)
+// 			}
+// 		}
+// 		return tempPanel
+// 	}
+// 	return p
+// }
