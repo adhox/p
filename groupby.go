@@ -3,6 +3,7 @@ package panel
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 // GroupByPanel is a special Panel with special methods
@@ -27,7 +28,8 @@ func (p Panel) GroupBy(cols ...string) GroupByPanel {
 // GroupBy returns the length of a column
 func GroupBy(pnl Panel, cols ...string) GroupByPanel {
 	return GroupByPanel{
-		hashify(pnl.Select(cols...).Unique()),
+		// hashify(pnl.Select(cols...).Unique()),
+		hashify(pnl.Select(cols).Unique()),
 		hashify(pnl),
 	}
 }
@@ -150,6 +152,36 @@ func (gp GroupByPanel) Count(col string) GroupByPanel {
 				agg[aggColName] = 1 + agg[aggColName].(int)
 			}
 		}
+		hist[g] = agg
+	}
+	fmt.Println(hist)
+	return gp
+}
+
+// Squeeze ...
+func (gp GroupByPanel) Squeeze(col string, sep string) GroupByPanel {
+	hist := make([]map[string]interface{}, len(gp[0]))
+	for g, group := range gp[0] {
+		agg := map[string]interface{}{}
+		for key, val := range group {
+			agg[key] = val
+		}
+		agg[col] = []string{}
+
+		for _, row := range gp[1] {
+			pass := true
+			for key, val := range group {
+				if val != row[key] {
+					pass = false
+					break
+				}
+			}
+			if pass {
+				x := row[col]
+				agg[col] = append(agg[col].([]string), fmt.Sprintf("%v", x))
+			}
+		}
+		agg[col] = strings.Join(agg[col].([]string), sep)
 		hist[g] = agg
 	}
 	fmt.Println(hist)

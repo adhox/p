@@ -21,6 +21,11 @@ func (p Panel) Dump(fname string) { // ADD ERROR
 	Unload(p, fname)
 }
 
+// Export is method short hand for Unload function
+func (p Panel) Export(fname string) { // ADD ERROR
+	Unload(p, fname)
+}
+
 // Unload is method short hand for Unload function
 func (p Panel) Unload(fname string) { // ADD ERROR
 	Unload(p, fname)
@@ -90,8 +95,6 @@ func Unload(p Panel, fname string) { // ADD ERROR
 		}
 
 	case ".xml":
-
-	case ".tsv":
 
 	case ".json":
 		export := []map[string]interface{}{}
@@ -196,14 +199,16 @@ func Unload(p Panel, fname string) { // ADD ERROR
 
 		}
 
-	default:
-		file := new(os.File)
+	default: // TSV
+		// file := new(os.File)
 		if _, err := os.Stat(fname); err == nil {
-			file, _ = os.OpenFile(fname, os.O_RDWR|os.O_APPEND, 0777)
-		} else {
-			file, _ = os.Create(fname)
+			// file, _ = os.OpenFile(fname, os.O_RDWR|os.O_APPEND, 0777)
+			// file, _ = os.OpenFile(fname, os.O_RDWR, 0777)
+			if err := os.Remove(fname); err != nil {
+				fmt.Println(err)
+			}
 		}
-
-		file.Write([]byte(fmt.Sprintf("%s", p)))
+		file, _ := os.Create(fname)
+		file.Write([]byte(fmt.Sprintf("%v", p)))
 	}
 }

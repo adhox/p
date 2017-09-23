@@ -1,6 +1,5 @@
 package panel
 
-
 import (
 	"bufio"
 	"encoding/csv"
@@ -17,6 +16,27 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
+// TSV is a simple type wrapper
+// to assist in the parsing logic
+type TSV string
+
+// CSV is a simple type wrapper
+// to assist in the parsing logic
+type CSV string
+
+// XML is a simple type wrapper
+// to assist in the parsing logic
+type XML string
+
+// JSON is a simple type wrapper
+// to assist in the parsing logic
+type JSON string
+
+// SQL is a simple type wrapper
+// to assist in the parsing logic
+type SQL string
+
+// Load ...
 // 1. Loading data from file or memory
 // 2. Perform data cleaning and standardization
 func Load(fname string, head bool) Panel {
@@ -61,13 +81,17 @@ func Load(fname string, head bool) Panel {
 	return p.Clean()
 }
 
+// Read does same as Load
 func Read(fname string, head bool) Panel {
 	return Load(fname, head)
 }
 
 func download(u url.URL) string {
 
-	res, _ := http.Get(u.String())
+	res, err := http.Get(u.String())
+	if err != nil {
+		return ""
+	}
 	defer res.Body.Close()
 
 	fname := strings.ToLower(fmt.Sprintf("%s.%s", u.Host, strings.Split(path.Base(u.String()), "?")[0]))

@@ -1,5 +1,9 @@
 package panel
 
+import (
+	"fmt"
+)
+
 // Add a column with data
 func Add(p Panel, header string, data interface{}) Panel {
 	return p.Add(header, data)
@@ -41,19 +45,86 @@ func (p Panel) Add(header string, data interface{}) Panel {
 }
 
 // Rename a column
-func (p Panel) Rename(cols map[string]string) Panel {
-	return Rename(p, cols)
+func (p Panel) Rename(c ...interface{}) Panel {
+	return Rename(p, c)
 }
 
-// Rename a column
-func Rename(p Panel, cols map[string]string) Panel {
+// Rename columns
+// Quick if only renaming one column:
+// 		df.Rename("old", "new")
+// If renaming more than one column:
+// 		df.Rename(map[string]string{"old1":"new1", "old2":"new2")
+func Rename(p Panel, c ...interface{}) Panel {
 	removals := []string{}
-	if cols != nil {
-		for from, to := range cols {
-			p.Add(to, p[from])
-			removals = append(removals, from)
+	pairs := map[string]string{}
+	fmt.Printf("%v is a %T\n\n", c, c)
+
+	for i := range c {
+		fmt.Printf("%v is a %T\n\n", c[i], c[i])
+
+		switch t := c[i].(type) {
+		case map[string]string:
+			// in case there are multiple maps (e.g. ...map[string]string)
+			for k, v := range t {
+				pairs[k] = v
+			}
+		case []interface{}:
+			// strings only
+			indexCount, key, val := 0, "", ""
+			for ii := range t {
+				switch tt := t[ii].(type) {
+				case map[string]string:
+					// in case there are multiple maps (e.g. ...map[string]string)
+					for k, v := range tt {
+						pairs[k] = v
+					}
+				case string:
+					switch indexCount {
+					case 0:
+						key = tt
+						indexCount++
+					case 1:
+						val = tt
+						indexCount++
+					default:
+						break
+					}
+				}
+			}
+
+			if indexCount > 1 {
+				pairs[key] = val
+			}
+		case []string:
+			k, v := t[0], t[1]
+			pairs[k] = v
+		case [2]string:
+			k, v := t[0], t[1]
+			pairs[k] = v
+		default:
+			return p
 		}
 	}
+
+	// switch t := cols.(type) {
+	// case nil:
+	// 	return p
+	// case []string:
+	// 	from, to := t[0], t[1]
+	// 	p.Add(to, p[from])
+	// 	removals = append(removals, from)
+	// case [2]string:
+	// 	from, to := t[0], t[1]
+	// 	p.Add(to, p[from])
+	// 	removals = append(removals, from)
+	// case map[string]string:
+
+	fmt.Println(len(pairs), pairs)
+	for from, to := range pairs {
+		p.Add(to, p[from])
+		removals = append(removals, from)
+	}
+	// }
 	return p.Remove(removals...)
 }
 

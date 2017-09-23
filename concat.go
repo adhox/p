@@ -1,16 +1,16 @@
 package panel
 
 // Concat ...
-func (p1 Panel) Concat(p2 Panel) Panel {
-	return Concat(p1, p2)
+func (pn Panel) Concat(p2 Panel) Panel {
+	return Concat(pn, p2)
 }
 
 // Concat ...
-func Concat(p1, p2 Panel) Panel {
-	for col := range p1 {
-		p1[col] = append(p1[col], p2[col]...)
+func Concat(pn, p2 Panel) Panel {
+	for col := range pn {
+		pn[col] = append(pn[col], p2[col]...)
 	}
-	return p1
+	return pn
 }
 
 // simply stack two panels together
@@ -27,21 +27,21 @@ func Concat(p1, p2 Panel) Panel {
 // that could do the same, given a func
 
 // Union ...
-func Union(p1, p2 Panel) Panel {
-	return p1.Concat(p2).Unique()
+func Union(pn, p2 Panel) Panel {
+	return pn.Concat(p2).Unique()
 }
 
 // UnionAll ...
-func UnionAll(p1, p2 Panel) Panel {
-	return p1.Concat(p2)
+func UnionAll(pn, p2 Panel) Panel {
+	return pn.Concat(p2)
 }
 
 // Union ...
-func (p1 Panel) Union(p2 Panel) Panel {
-	return Union(p1, p2)
+func (pn Panel) Union(p2 Panel) Panel {
+	return Union(pn, p2)
 }
 
 // UnionAll ...
-func (p1 Panel) UnionAll(p2 Panel) Panel {
-	return UnionAll(p1, p2)
+func (pn Panel) UnionAll(p2 Panel) Panel {
+	return UnionAll(pn, p2)
 }

@@ -1,12 +1,25 @@
 package panel
 
-
 // May modify with delimit options: func (p Panel) String(delim string) string
 // For example, p.String(",")... How would you pass delim in fmt.Println(p)???
 //
 
-import "fmt"
-import "sort"
+import (
+	"encoding/json"
+	"fmt"
+	"sort"
+	"strings"
+)
+
+// JSONify is just a pretty print wrapper
+// for a special use case
+func Pretty(d map[string]map[string]interface{}) string {
+	// var i interface{} = d
+	// m := i.(map[string]map[string]interface{})
+	j, _ := json.MarshalIndent(d, "", "	")
+	// fmt.Println(j)
+	return string(j)
+}
 
 // Print .... (placeholder for pretty printing; undone)
 func (p Panel) Print() {
@@ -32,18 +45,14 @@ func (p Panel) String() string {
 	sort.Strings(cols)
 
 	// add headers to output
-	for _, col := range cols {
-		res += fmt.Sprintf("%v\t", col)
-	}
-	res += "\n"
-
+	res = fmt.Sprintf("%s\n", strings.Join(cols, "\t"))
 	// for each row
-	for row := 0; row < length; row++ {
-		s := ""
+	for i := 0; i < length; i++ {
+		var row []string
 		for _, col := range cols {
-			s += fmt.Sprintf("%v\t", p[col][row])
+			row = append(row, fmt.Sprintf("%v", p[col][i]))
 		}
-		res += fmt.Sprintf("%s\n", s)
+		res += fmt.Sprintf("%s\n", strings.Join(row, "\t"))
 	}
 
 	return res

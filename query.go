@@ -1,6 +1,5 @@
 package panel
 
-
 // Connect and query databases for data
 
 import (
@@ -11,9 +10,13 @@ import (
 	"log"
 	"strings"
 
+	// Import to allow for dynamic use of databases
+	_ "github.com/alexbrainman/odbc"
 	_ "github.com/denisenkom/go-mssqldb"
+	_ "github.com/mattn/go-sqlite3"
 )
 
+// Config ...
 type Config struct {
 	Password string
 	Port     int
@@ -22,6 +25,7 @@ type Config struct {
 	Database string
 }
 
+// Connect ...
 func Connect(driver string, config interface{}) *sql.DB {
 	var connString string
 
@@ -80,6 +84,7 @@ func Connect(driver string, config interface{}) *sql.DB {
 	return conn
 }
 
+// Query ...
 func Query(conn *sql.DB, code string) Panel {
 	tempPanel := make(Panel)
 
@@ -99,7 +104,7 @@ func Query(conn *sql.DB, code string) Panel {
 			valuePtrs := make([]interface{}, count)
 
 			for rows.Next() {
-				for i, _ := range columns {
+				for i := range columns {
 					valuePtrs[i] = &values[i]
 				}
 				rows.Scan(valuePtrs...)

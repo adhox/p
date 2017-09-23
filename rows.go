@@ -2,17 +2,7 @@ package panel
 
 // Rows ...
 func (p Panel) Rows(points ...int) Panel {
-	// l := len(points)
-	// switch {
-	// case l == 1:
-	// 	return Rows(p, points[0])
-	// case l > 1:
-	// 	return Rows(p, points[0], points[1])
-	// default:
-	// 	return Rows(p)
-	// }
 	return Rows(p, points...)
-
 }
 
 // Rows ...
@@ -31,6 +21,12 @@ func Rows(p Panel, points ...int) Panel {
 	default:
 		start = 0
 		end = -1
+	}
+
+	// check if end is greater than panel length
+	if ln := p.Size().Length; end >= ln {
+		// TODO: check that ln does not cutoff last element
+		end = ln
 	}
 
 	for header := range p {
@@ -55,7 +51,6 @@ func Rows(p Panel, points ...int) Panel {
 
 		}
 	}
-
 	return tempPanel
 }
 

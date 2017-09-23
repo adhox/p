@@ -1,23 +1,11 @@
 package panel
 
-
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 )
 
 // type description map[string]map[string]interface{}
-
-// JSON is just a pretty print wrapper
-// for a special use case
-func JSON(d map[string]map[string]interface{}) string {
-	// var i interface{} = d
-	// m := i.(map[string]map[string]interface{})
-	j, _ := json.MarshalIndent(d, "", "	")
-	// fmt.Println(j)
-	return string(j)
-}
 
 func (p Panel) Describe(cols ...string) map[string]map[string]interface{} {
 	return Describe(p, cols)
