@@ -2,14 +2,15 @@
 // handling and manipulating of large datasets.  API is still not stable,
 // use cautiously.
 //
-//
 // Loading Data
-// Panel loads data from several formats...
 //
+// Panel loads data from several formats...
+// including CSV, JSON, SQL
 //
 // Unloading Data
-// Panel unloads data to several formats...
 //
+// Panel unloads data to several formats...
+// including CSV, JSON, SQL
 //
 //
 //
